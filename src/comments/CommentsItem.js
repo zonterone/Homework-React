@@ -1,23 +1,27 @@
 import React from "react";
 
-export default function CommentsItem({ comment }) {
-  return (
-    <li>
-      <h2>{comment.authorName}</h2>
-      <p>{comment.commentText}</p>
-      <span>{comment.commentTime}</span>
-      <button commentid={comment.id} onClick={commentDelete}>
-        удалить
-      </button>
-    </li>
-  );
+class CommentsItem extends React.Component {
+  onDelClickHandler = (e) => {
+    e.preventDefault();
+    const { id } = this.props.comment;
+    this.props.onDeleteComments({
+      id: id
+    });
+  };
+
+  render() {
+    const { comment } = this.props;
+    return (
+      <li>
+        <h2>{comment.author}</h2>
+        <p>{comment.comment}</p>
+        <span>{comment.time}</span>
+        <button id={comment.id} onClick={this.onDelClickHandler}>
+          удалить
+        </button>
+      </li>
+    );
+  }
 }
 
-function commentDelete(ev) {
-  let targetId = +(ev.target.attributes.commentid.value);
-  let storage = JSON.parse(localStorage.getItem("comments"));
-  localStorage.setItem(
-    "comments",
-    JSON.stringify(storage.filter((item) => item.id !== targetId))
-  );
-}
+export { CommentsItem };

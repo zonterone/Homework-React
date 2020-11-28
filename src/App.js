@@ -1,26 +1,48 @@
 import React from "react";
-import CommentsList from "./comments/CommentsList";
-import CommentForm from "./comments/CommentsForm";
+import { CommentsList } from "./comments/CommentsList";
 
-function App() {
-  const [comments] = React.useState(
-    JSON.parse(localStorage.getItem("comments"))
-  );
+import { CommentsForm } from "./comments/CommentsForm";
 
-  return (
-      <div>
-        <CommentForm></CommentForm>
-        {comments === null ? (
-          <p>Нет комментариев</p>
-        ) : comments.length === 0 ? (
-          <p>Нет комментариев</p>
-        ) : (
+class App extends React.Component {
+  state = { data: "" };
 
-            <CommentsList comments={comments} />
+  componentDidMount() {
+    const comments = JSON.parse(localStorage.getItem("comments"));
+    this.setState({ data: comments });
+  }
 
-        )}
-      </div>
-  );
+  handleAddComment = (ev) => {
+    if (this.state.data !== null) {
+      const nextComm = [ev, ...this.state.data];
+      this.setState({ data: nextComm });
+      localStorage.setItem("comments", JSON.stringify(nextComm));
+    } else {
+      const nextComm = [ev];
+      this.setState({ data: nextComm });
+      localStorage.setItem("comments", JSON.stringify(nextComm));
+    }
+  };
+
+  handleDeleteComment = (ev) => {
+    let targetId = ev.target.id;
+    let storage = this.state.data;
+    localStorage.setItem(
+      "comments",
+      JSON.stringify(storage.filter((item) => item.id !== targetId))
+    );
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <CommentsForm onAddComments={this.handleAddComment} />
+        <CommentsList
+          data={this.state.data}
+          onDeleteComment={this.handleDeleteComment}
+        />
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;
