@@ -1,10 +1,12 @@
 import React from "react";
 import { CommentsList } from "./comments/CommentsList";
-
 import { CommentsForm } from "./comments/CommentsForm";
 
 class App extends React.Component {
-  state = { data: "" };
+  constructor(props) {
+    super(props);
+    this.state = { }
+  }
 
   componentDidMount() {
     const comments = JSON.parse(localStorage.getItem("comments"));
@@ -24,12 +26,10 @@ class App extends React.Component {
   };
 
   handleDeleteComment = (ev) => {
-    let targetId = ev.target.id;
-    let storage = this.state.data;
-    localStorage.setItem(
-      "comments",
-      JSON.stringify(storage.filter((item) => item.id !== targetId))
-    );
+    let targetId = ev.id;
+    let storage = this.state.data.filter((item) => item.id !== targetId)
+    localStorage.setItem("comments",JSON.stringify(storage))
+    this.setState( {data: storage} )
   };
 
   render() {

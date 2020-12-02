@@ -2,13 +2,13 @@ import React from "react";
 import { CommentsItem } from "./CommentsItem";
 
 class CommentsList extends React.Component {
-  del =() => {console.log("qq")}
   render() {
+    const { onDeleteComment } = this.props
     const comment = this.props.data;
     let commentsTemplate;
-    if (comment !== null && comment.length > 0) {
+    if (comment && comment.length) {
       commentsTemplate = comment.map(function (item) {
-        return <CommentsItem key={item.id} comment={item}/>;
+        return <CommentsItem key={item.id} comment={item} onDeleteComment={onDeleteComment}/>;
       });
     } else {
       commentsTemplate = <li>Нет комментариев</li>;

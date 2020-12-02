@@ -1,0 +1,40 @@
+.comment {
+  width: 50%;
+  margin: 50px 0 50px;
+  padding: 20px;
+  list-style: none;
+  border: 1px solid gray;
+  border-radius: 3px;
+  background-color: lightgrey;
+}
+
+.comment__author {
+  margin: 10px;
+  border-bottom: 1px dashed grey;
+}
+
+.comment__text {
+  margin: 0;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  background-color: white;
+}
+
+.comment__infoWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.comment__time {
+  display: inline-block;
+  opacity: 0.7;
+  font-size: 12px;
+}
+
+.comment__deleteButton {
+  padding: 5px 10px;
+  border : 1px solid gray;
+  border-radius: 3px;
+}

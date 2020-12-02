@@ -1,11 +1,15 @@
 import React from "react";
 import getTime from "./getTime";
+import style from "./commentsFormStyle.module.css"
 
 class CommentsForm extends React.Component {
-  state = {
-    name: "",
-    text: "",
-  };
+  constructor(props) {
+    super(props);
+      this.state = {
+        name: "",
+        text: "",
+      };
+  }
 
   handleChange = (e) => {
     const { id, value } = e.currentTarget;
@@ -34,10 +38,11 @@ class CommentsForm extends React.Component {
   render() {
     const { name, text } = this.state;
     return (
-      <form>
-        <label>
+      <form className={style.form}>
+        <label className={style.form__label}>
           Имя:
           <input
+            className={style.form__nameInput}
             type="text"
             name="name"
             id="name"
@@ -46,18 +51,25 @@ class CommentsForm extends React.Component {
             onChange={this.handleChange}
           />
         </label>
-        <label>
+        <label className={style.form__label}>
           Комментарий:
-          <input
+          <textarea
+            className={style.form__textInput}
             type="text"
             name="text"
             id="text"
             value={text}
             placeholder={"Комментарий"}
+            rows="5"
             onChange={this.handleChange}
           />
         </label>
-        <button type="submit" onClick={this.onBtnClickHandler} disabled={this.validate()}>
+        <button
+          className={style.form__submitButton}
+          type="submit"
+          onClick={this.onBtnClickHandler}
+          disabled={this.validate()}
+        >
           отправить
         </button>
       </form>
