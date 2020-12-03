@@ -30,9 +30,7 @@ class CommentsForm extends React.Component {
 
   validate = () => {
     const {name, text} = this.state;
-    if (name.trim() && text.trim()) {
-      return false
-    } else {return true}
+    return !(name.trim() && text.trim())
   }
 
   render() {
