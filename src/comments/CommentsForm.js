@@ -1,40 +1,31 @@
 import React from "react";
 import getTime from "./getTime";
-import style from "./commentsFormStyle.module.css"
+import style from "./commentsFormStyle.module.css";
 
 class CommentsForm extends React.Component {
-  constructor(props) {
-    super(props);
-      this.state = {
-        name: "",
-        text: "",
-      };
-  }
-
   handleChange = (e) => {
     const { id, value } = e.currentTarget;
-    this.setState({ [id]: value });
+    this.props.formChange({ [id]: value });
   };
 
   onBtnClickHandler = (e) => {
     e.preventDefault();
-    const { name, text } = this.state;
-    this.props.onAddComments({
+    const { name, text } = this.props.data;
+    this.props.addComment({
       id: `id${(+new Date()).toString(16)}`,
       author: name,
       comment: text,
       time: getTime(),
     });
-    this.setState({ name: "", text: "" });
+    this.props.formChange({ name: "", text: "" });
   };
 
   validate = () => {
-    const {name, text} = this.state;
-    return !(name.trim() && text.trim())
-  }
+    const { name, text } = this.props.data;
+    return !(name.trim() && text.trim());
+  };
 
   render() {
-    const { name, text } = this.state;
     return (
       <form className={style.form}>
         <label className={style.form__label}>
@@ -44,7 +35,7 @@ class CommentsForm extends React.Component {
             type="text"
             name="name"
             id="name"
-            value={name}
+            value={this.props.data.name}
             placeholder={"Имя"}
             onChange={this.handleChange}
           />
@@ -56,7 +47,7 @@ class CommentsForm extends React.Component {
             type="text"
             name="text"
             id="text"
-            value={text}
+            value={this.props.data.text}
             placeholder={"Комментарий"}
             rows="5"
             onChange={this.handleChange}
@@ -74,4 +65,5 @@ class CommentsForm extends React.Component {
     );
   }
 }
+
 export { CommentsForm };

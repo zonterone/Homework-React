@@ -1,48 +1,36 @@
 import React from "react";
-import { CommentsList } from "./comments/CommentsList";
+import { connect } from "react-redux";
+import CommentsList from "./comments/CommentsList";
 import { CommentsForm } from "./comments/CommentsForm";
+import { addComment, formChange } from "./actions/actions";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { }
-  }
-
-  componentDidMount() {
-    const comments = JSON.parse(localStorage.getItem("comments"));
-    this.setState({ data: comments });
-  }
-
-  handleAddComment = (ev) => {
-    if (this.state.data !== null) {
-      const nextComm = [ev, ...this.state.data];
-      this.setState({ data: nextComm });
-      localStorage.setItem("comments", JSON.stringify(nextComm));
-    } else {
-      const nextComm = [ev];
-      this.setState({ data: nextComm });
-      localStorage.setItem("comments", JSON.stringify(nextComm));
-    }
-  };
-
-  handleDeleteComment = (ev) => {
-    let targetId = ev.id;
-    let storage = this.state.data.filter((item) => item.id !== targetId)
-    localStorage.setItem("comments",JSON.stringify(storage))
-    this.setState( {data: storage} )
-  };
-
   render() {
     return (
       <React.Fragment>
-        <CommentsForm onAddComments={this.handleAddComment} />
-        <CommentsList
-          data={this.state.data}
-          onDeleteComment={this.handleDeleteComment}
+        <CommentsForm
+          addComment={this.props.addComment}
+          formChange={this.props.formChange}
+          data={this.props.form}
         />
+        <CommentsList data={this.props.comments} />
       </React.Fragment>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (store) => {
+  return {
+    comments: store.list.comments,
+    form: store.form,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addComment: (comment) => dispatch(addComment(comment)),
+    formChange: (form) => dispatch(formChange(form)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
