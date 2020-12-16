@@ -2,11 +2,11 @@ import React from "react";
 import styles from "./commentsItemStyle.module.css";
 
 class CommentsItem extends React.Component {
-  onDelClickHandler = (e) => {
+  handleDel = (e) => {
     e.preventDefault();
-    const { id } = this.props.comment;
-    this.props.onDeleteComment({
-      id: id,
+    const { id } = e.currentTarget;
+    this.props.deleteComment({
+      id,
     });
   };
 
@@ -21,7 +21,7 @@ class CommentsItem extends React.Component {
           <button
             className={styles.comment__deleteButton}
             id={comment.id}
-            onClick={this.onDelClickHandler}
+            onClick={this.handleDel}
           >
             удалить
           </button>
